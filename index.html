@@ -4,526 +4,303 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>TKD Teoría</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
-
-body {
-  font-family: 'DM Sans', sans-serif;
-  background: #0a0a0f;
-  color: #f0f0f5;
-  min-height: 100vh;
-  overflow-x: hidden;
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#0d0d12;--surface:#17171f;--surface2:#1e1e28;--border:#2c2c3e;
+  --red:#e8132a;--red-dim:rgba(232,19,42,0.15);--red-glow:rgba(232,19,42,0.3);
+  --text:#f0f0f5;--muted:#7a7a9a;--faint:#3a3a50;
+  --ok:#00c96e;--ok-dim:rgba(0,201,110,0.12);--ok-border:rgba(0,201,110,0.35);
+  --err:#e8132a;--err-dim:rgba(232,19,42,0.1);--err-border:rgba(232,19,42,0.35);
+  --gold:#f5c842;
 }
-
-.screen { display: none; min-height: 100vh; flex-direction: column; }
-.screen.active { display: flex; }
-
-.top-bar {
-  padding: 20px 20px 14px;
-  display: flex; align-items: center; gap: 12px;
-  background: #0a0a0f;
-  position: sticky; top: 0; z-index: 10;
-  border-bottom: 1px solid #1c1c28;
-}
-.logo {
-  width: 40px; height: 40px; background: #e8132a;
-  border-radius: 10px; display: flex; align-items: center; justify-content: center;
-  font-size: 20px; flex-shrink: 0; box-shadow: 0 0 16px rgba(232,19,42,0.3);
-}
-.top-title { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 1px; flex: 1; }
-.top-sub { font-size: 11px; color: #7a7a9a; margin-top: 1px; }
-
-#home { background: #0a0a0f; }
-.home-body { padding: 20px; flex: 1; }
-.hero {
-  background: #13131a; border: 1px solid #2a2a3d;
-  border-radius: 20px; padding: 26px 22px; margin-bottom: 28px;
-  position: relative; overflow: hidden;
-}
-.hero-emoji { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); font-size: 60px; opacity: 0.1; }
-.hero h2 { font-family: 'Bebas Neue', sans-serif; font-size: 34px; line-height: 1.05; letter-spacing: 1px; }
-.hero h2 span { color: #e8132a; }
-.hero p { margin-top: 8px; font-size: 13px; color: #7a7a9a; line-height: 1.5; }
-.section-label { font-size: 11px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: #7a7a9a; margin-bottom: 12px; }
-.card-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
-
-.test-card {
-  background: #13131a; border: 1.5px solid #2a2a3d;
-  border-radius: 14px; padding: 16px 18px;
-  display: flex; align-items: center; gap: 14px;
-  cursor: pointer; width: 100%; text-align: left;
-  color: #f0f0f5; font-family: 'DM Sans', sans-serif; font-size: 14px;
-}
-.test-card:active { background: #16161f; border-color: #e8132a; }
-.card-ico { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
-.card-name { font-weight: 600; font-size: 14px; line-height: 1.3; }
-.card-meta { font-size: 12px; color: #7a7a9a; margin-top: 2px; }
-.card-arr { color: #7a7a9a; font-size: 20px; margin-left: auto; }
-.admin-link {
-  width: 100%; padding: 13px; background: transparent;
-  border: 1px solid #2a2a3d; border-radius: 12px;
-  color: #7a7a9a; font-family: 'DM Sans', sans-serif; font-size: 13px;
-  cursor: pointer; text-align: left;
-}
-.admin-link:active { border-color: #e8132a; color: #f0f0f5; }
-
-#quiz { background: #0a0a0f; }
-.quiz-top {
-  padding: 16px 20px; display: flex; align-items: center; gap: 12px;
-  border-bottom: 1px solid #1c1c28; background: #0a0a0f;
-  position: sticky; top: 0; z-index: 10;
-}
-.back-btn {
-  width: 36px; height: 36px; background: #13131a;
-  border: 1px solid #2a2a3d; border-radius: 10px;
-  color: #f0f0f5; font-size: 18px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
-.back-btn:active { background: #2a2a3d; }
-.quiz-label { font-size: 13px; font-weight: 600; flex: 1; }
-.quiz-cnt { font-size: 12px; color: #7a7a9a; }
-.progress-bar { height: 3px; background: #1c1c28; }
-.progress-fill { height: 100%; background: #e8132a; box-shadow: 0 0 8px #e8132a; transition: width 0.4s ease; }
-.quiz-body { padding: 24px 20px 20px; flex: 1; overflow-y: auto; }
-.q-num { font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #e8132a; margin-bottom: 10px; }
-.q-text { font-size: 18px; font-weight: 500; line-height: 1.45; margin-bottom: 26px; }
-.options-list { display: flex; flex-direction: column; gap: 10px; }
-
-.opt-btn {
-  background: #13131a; border: 1.5px solid #2a2a3d;
-  border-radius: 14px; padding: 15px 16px;
-  display: flex; align-items: center; gap: 12px;
-  cursor: pointer; width: 100%; text-align: left;
-  color: #f0f0f5; font-family: 'DM Sans', sans-serif; font-size: 14px; line-height: 1.4;
-}
-.opt-btn.correct { border-color: #00c96e !important; background: rgba(0,201,110,0.08) !important; }
-.opt-btn.wrong   { border-color: #e8132a !important; background: rgba(232,19,42,0.08) !important; }
-.opt-letter {
-  width: 28px; height: 28px; min-width: 28px; border-radius: 8px;
-  background: #1c1c28; border: 1px solid #2a2a3d;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 700; color: #7a7a9a;
-}
-.opt-btn.correct .opt-letter { background: #00c96e; color: #fff; border-color: #00c96e; }
-.opt-btn.wrong   .opt-letter { background: #e8132a; color: #fff; border-color: #e8132a; }
-
-.feedback-box { margin-top: 16px; padding: 14px 16px; border-radius: 12px; font-size: 13px; line-height: 1.5; display: none; }
-.feedback-box.ok  { background: rgba(0,201,110,0.1); border: 1px solid rgba(0,201,110,0.3); color: #00c96e; }
-.feedback-box.err { background: rgba(232,19,42,0.08); border: 1px solid rgba(232,19,42,0.3); color: #ff6b6b; }
-.next-wrap { padding: 16px 20px 36px; }
-.next-btn {
-  width: 100%; padding: 16px; background: #e8132a; color: #fff;
-  border: none; border-radius: 14px; font-family: 'Bebas Neue', sans-serif;
-  font-size: 18px; letter-spacing: 1px; cursor: pointer;
-  box-shadow: 0 4px 20px rgba(232,19,42,0.35); display: none;
-}
-.next-btn:active { opacity: 0.8; }
-
-#result { background: #0a0a0f; align-items: center; justify-content: center; padding: 40px 24px; text-align: center; }
-.res-icon { font-size: 72px; margin-bottom: 12px; }
-.res-score { font-family: 'Bebas Neue', sans-serif; font-size: 80px; line-height: 1; }
-.res-score.pass { color: #00c96e; }
-.res-score.fail { color: #e8132a; }
-.res-lbl { font-size: 14px; color: #7a7a9a; margin: 4px 0 20px; }
-.res-msg { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 1px; margin-bottom: 6px; }
-.res-sub { font-size: 13px; color: #7a7a9a; line-height: 1.5; margin-bottom: 28px; }
-.stats-row { display: flex; gap: 10px; margin-bottom: 28px; width: 100%; }
-.stat-box { flex: 1; background: #13131a; border: 1px solid #2a2a3d; border-radius: 14px; padding: 14px 10px; }
-.stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 30px; }
-.stat-num.g { color: #00c96e; }
-.stat-num.r { color: #e8132a; }
-.stat-num.y { color: #f5c842; }
-.stat-lbl { font-size: 11px; color: #7a7a9a; margin-top: 2px; }
-.btn-primary {
-  width: 100%; padding: 16px; background: #e8132a; color: #fff;
-  border: none; border-radius: 14px; font-family: 'Bebas Neue', sans-serif;
-  font-size: 18px; letter-spacing: 1px; cursor: pointer;
-  box-shadow: 0 4px 20px rgba(232,19,42,0.35); margin-bottom: 10px;
-}
-.btn-primary:active { opacity: 0.8; }
-.btn-ghost {
-  width: 100%; padding: 14px; background: transparent;
-  border: 1px solid #2a2a3d; border-radius: 14px;
-  color: #7a7a9a; font-family: 'DM Sans', sans-serif; font-size: 14px; cursor: pointer;
-}
-.btn-ghost:active { border-color: #7a7a9a; }
-
-#admin { background: #0a0a0f; }
-.admin-body { padding: 20px; overflow-y: auto; flex: 1; }
-.form-label { font-size: 11px; font-weight: 600; color: #7a7a9a; letter-spacing: 0.5px; display: block; margin-bottom: 6px; margin-top: 14px; }
-.form-input, .form-select, .form-textarea {
-  width: 100%; background: #13131a; border: 1px solid #2a2a3d;
-  border-radius: 10px; color: #f0f0f5; font-family: 'DM Sans', sans-serif;
-  font-size: 14px; padding: 12px 14px; outline: none; -webkit-appearance: none;
-}
-.form-input:focus, .form-textarea:focus, .form-select:focus { border-color: #e8132a; }
-.form-textarea { resize: vertical; min-height: 80px; }
-.form-select option { background: #13131a; }
-.opt-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
-.opt-row-lbl { font-size: 12px; color: #7a7a9a; font-weight: 700; width: 18px; flex-shrink: 0; }
-.divider { height: 1px; background: #1c1c28; margin: 24px 0; }
-.q-item { background: #13131a; border: 1px solid #2a2a3d; border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
-.q-item-text { flex: 1; font-size: 13px; line-height: 1.3; }
-.del-q {
-  width: 32px; height: 32px; min-width: 32px; border-radius: 8px;
-  background: rgba(232,19,42,0.1); border: 1px solid rgba(232,19,42,0.3);
-  color: #e8132a; font-size: 15px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-}
-.del-q:active { background: rgba(232,19,42,0.2); }
-.empty-msg { text-align: center; padding: 30px 20px; color: #7a7a9a; font-size: 13px; }
-.empty-msg .ei { font-size: 36px; margin-bottom: 8px; }
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+.screen{display:none;flex-direction:column;min-height:100vh}
+.screen.on{display:flex}
+.topbar{padding:18px 20px 14px;display:flex;align-items:center;gap:12px;background:var(--bg);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:20}
+.logo{width:40px;height:40px;background:var(--red);border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;box-shadow:0 0 20px var(--red-glow)}
+.logo-text h1{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1.5px;line-height:1}
+.logo-text p{font-size:11px;color:var(--muted);margin-top:1px;letter-spacing:.5px}
+.back-btn{width:36px;height:36px;background:var(--surface);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.back-btn:active{background:var(--faint)}
+.topbar-title{font-size:14px;font-weight:600;flex:1}
+.topbar-right{font-size:12px;color:var(--muted)}
+#home .body{padding:20px;flex:1}
+.hero{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:26px 22px;margin-bottom:26px;position:relative;overflow:hidden}
+.hero::after{content:'🥋';position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:64px;opacity:.08}
+.hero h2{font-family:'Bebas Neue',sans-serif;font-size:36px;line-height:1.05;letter-spacing:1px}
+.hero h2 em{color:var(--red);font-style:normal}
+.hero p{margin-top:8px;font-size:13px;color:var(--muted);line-height:1.6}
+.sec-label{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:12px}
+.test-list{display:flex;flex-direction:column;gap:10px;margin-bottom:6px}
+.test-card{background:var(--surface);border:1.5px solid var(--border);border-radius:16px;padding:16px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;width:100%;text-align:left;color:var(--text);font-family:'DM Sans',sans-serif}
+.test-card:active{border-color:var(--red);background:var(--surface2);transform:scale(.98)}
+.t-icon{width:46px;height:46px;border-radius:13px;background:var(--red-dim);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.t-name{font-size:14px;font-weight:600;line-height:1.3}
+.t-meta{font-size:12px;color:var(--muted);margin-top:2px}
+.t-arr{margin-left:auto;color:var(--muted);font-size:22px}
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted);font-size:14px}
+.progbar{height:3px;background:var(--faint)}
+.progfill{height:100%;background:var(--red);box-shadow:0 0 8px var(--red);transition:width .4s ease}
+.quiz-body{padding:24px 20px 20px;flex:1;overflow-y:auto}
+.theory-badge{display:inline-flex;align-items:center;gap:6px;background:var(--red-dim);border:1px solid var(--red-glow);border-radius:8px;padding:4px 12px;font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);margin-bottom:14px}
+.theory-title{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.5px;line-height:1.1;margin-bottom:14px}
+.theory-content{font-size:15px;line-height:1.7;color:var(--text);white-space:pre-wrap}
+.theory-content b{color:var(--red);font-weight:600}
+.q-label{font-size:11px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--red);margin-bottom:10px}
+.q-text{font-size:18px;font-weight:500;line-height:1.45;margin-bottom:22px}
+.opts-list{display:flex;flex-direction:column;gap:9px}
+.opt{background:var(--surface);border:1.5px solid var(--border);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;width:100%;text-align:left;color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.4}
+.opt:active:not(.locked){border-color:var(--red)}
+.opt.correct{border-color:var(--ok)!important;background:var(--ok-dim)!important}
+.opt.wrong{border-color:var(--err)!important;background:var(--err-dim)!important}
+.opt-letter{width:28px;height:28px;min-width:28px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--muted);flex-shrink:0}
+.opt.correct .opt-letter{background:var(--ok);color:#fff;border-color:var(--ok)}
+.opt.wrong .opt-letter{background:var(--err);color:#fff;border-color:var(--err)}
+.fb{margin-top:14px;padding:13px 15px;border-radius:12px;font-size:13px;line-height:1.6;display:none}
+.fb.ok{background:var(--ok-dim);border:1px solid var(--ok-border);color:#00c96e}
+.fb.err{background:var(--err-dim);border:1px solid var(--err-border);color:#ff6b7a}
+.bottom-wrap{padding:14px 20px 36px}
+.btn-main{width:100%;padding:15px;background:var(--red);color:#fff;border:none;border-radius:14px;font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:1px;cursor:pointer;box-shadow:0 4px 24px var(--red-glow);display:none}
+.btn-main:active{opacity:.8}
+.btn-ghost{width:100%;padding:13px;background:transparent;border:1px solid var(--border);border-radius:14px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer}
+#result{align-items:center;justify-content:center;padding:40px 24px;text-align:center}
+.res-icon{font-size:64px;margin-bottom:10px}
+.res-score{font-family:'Bebas Neue',sans-serif;font-size:80px;line-height:1}
+.res-score.pass{color:var(--ok)}.res-score.fail{color:var(--red)}
+.res-lbl{font-size:14px;color:var(--muted);margin:4px 0 18px}
+.res-msg{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;margin-bottom:6px}
+.res-sub{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:26px}
+.stats-row{display:flex;gap:10px;margin-bottom:26px;width:100%}
+.stat{flex:1;background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 10px}
+.stat-n{font-family:'Bebas Neue',sans-serif;font-size:30px}
+.stat-n.g{color:var(--ok)}.stat-n.r{color:var(--red)}.stat-n.y{color:var(--gold)}
+.stat-l{font-size:11px;color:var(--muted);margin-top:2px}
 </style>
 </head>
 <body>
-
-<!-- HOME -->
-<div id="home" class="screen active">
-  <div class="top-bar">
+<div id="home" class="screen on">
+  <div class="topbar">
     <div class="logo">🥋</div>
-    <div><div class="top-title">TKD TEORÍA</div><div class="top-sub">Sistema de evaluación</div></div>
+    <div class="logo-text"><h1>TKD TEORÍA</h1><p>Sistema de evaluación</p></div>
   </div>
-  <div class="home-body">
+  <div class="body">
     <div class="hero">
-      <div class="hero-emoji">🥋</div>
-      <h2>PREPARÁ TU<br><span>EXAMEN</span></h2>
-      <p>Evaluaciones de teoría para tus próximos grados en Taekwon-Do.</p>
+      <h2>PREPARÁ TU<br><em>EXAMEN</em></h2>
+      <p>Evaluaciones de teoría para tus próximos grados en Taekwon-Do ITF.</p>
     </div>
-    <p class="section-label">Tests disponibles</p>
-    <div class="card-list" id="card-list"></div>
-    <button class="admin-link" id="admin-btn">⚙️ &nbsp; Panel del Profesor</button>
+    <p class="sec-label">Tests disponibles</p>
+    <div class="test-list" id="test-list"></div>
   </div>
 </div>
-
-<!-- QUIZ -->
 <div id="quiz" class="screen">
-  <div class="quiz-top">
-    <button class="back-btn" id="back-quiz">←</button>
-    <div class="quiz-label" id="ql-title">Test</div>
-    <div class="quiz-cnt" id="ql-cnt">1/1</div>
+  <div class="topbar">
+    <button class="back-btn" id="bk">←</button>
+    <div class="topbar-title" id="quiz-title">Test</div>
+    <div class="topbar-right" id="quiz-cnt"></div>
   </div>
-  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
-  <div class="quiz-body">
-    <div class="q-num" id="qnum">PREGUNTA 1</div>
-    <div class="q-text" id="qtext"></div>
-    <div class="options-list" id="opts"></div>
-    <div class="feedback-box" id="fb"></div>
-  </div>
-  <div class="next-wrap">
-    <button class="next-btn" id="nxt">SIGUIENTE →</button>
-  </div>
+  <div class="progbar"><div class="progfill" id="prog" style="width:0%"></div></div>
+  <div class="quiz-body" id="quiz-body"></div>
+  <div class="bottom-wrap"><button class="btn-main" id="nxt">SIGUIENTE →</button></div>
 </div>
-
-<!-- RESULT -->
 <div id="result" class="screen">
-  <div class="res-icon" id="ri">🏆</div>
-  <div class="res-score" id="rs">0%</div>
-  <div class="res-lbl" id="rl">0 de 0 correctas</div>
-  <div class="res-msg" id="rm">¡EXCELENTE!</div>
-  <div class="res-sub" id="rsub">¡Estás listo!</div>
+  <div class="res-icon" id="r-icon">🏆</div>
+  <div class="res-score" id="r-score">0%</div>
+  <div class="res-lbl" id="r-lbl">0 de 0 correctas</div>
+  <div class="res-msg" id="r-msg"></div>
+  <div class="res-sub" id="r-sub"></div>
   <div class="stats-row">
-    <div class="stat-box"><div class="stat-num g" id="sc">0</div><div class="stat-lbl">✅ Correctas</div></div>
-    <div class="stat-box"><div class="stat-num r" id="sw">0</div><div class="stat-lbl">❌ Incorrectas</div></div>
-    <div class="stat-box"><div class="stat-num y" id="sp">0%</div><div class="stat-lbl">⭐ Puntaje</div></div>
+    <div class="stat"><div class="stat-n g" id="r-ok">0</div><div class="stat-l">✅ Correctas</div></div>
+    <div class="stat"><div class="stat-n r" id="r-err">0</div><div class="stat-l">❌ Incorrectas</div></div>
+    <div class="stat"><div class="stat-n y" id="r-pct">0%</div><div class="stat-l">⭐ Puntaje</div></div>
   </div>
-  <button class="btn-primary" id="retry-btn">🔄 INTENTAR DE NUEVO</button>
-  <button class="btn-ghost" id="home-btn">← Volver al inicio</button>
+  <button class="btn-main" id="retry" style="display:block;margin-bottom:10px">🔄 INTENTAR DE NUEVO</button>
+  <button class="btn-ghost" id="r-home">← Volver al inicio</button>
 </div>
-
-<!-- ADMIN -->
-<div id="admin" class="screen">
-  <div class="top-bar">
-    <button class="back-btn" id="back-admin">←</button>
-    <div class="top-title" style="font-size:18px">Panel del Profesor</div>
-  </div>
-  <div class="admin-body">
-    <p class="section-label" style="margin-top:4px">Crear nuevo test</p>
-    <label class="form-label">NOMBRE DEL TEST</label>
-    <input class="form-input" id="tn" type="text" placeholder="Ej: Cartilla N°2 — 7° Gup">
-    <label class="form-label">DESCRIPCIÓN</label>
-    <input class="form-input" id="td" type="text" placeholder="Ej: 10 preguntas de teoría">
-    <label class="form-label">ÍCONO (emoji)</label>
-    <input class="form-input" id="ti" type="text" placeholder="🥋" style="max-width:80px">
-    <div style="margin-top:14px">
-      <button class="btn-primary" style="font-size:16px" id="create-test-btn">＋ CREAR TEST</button>
-    </div>
-    <div class="divider"></div>
-    <p class="section-label">Agregar pregunta</p>
-    <label class="form-label">TEST DESTINO</label>
-    <select class="form-select" id="tsel"></select>
-    <label class="form-label">PREGUNTA</label>
-    <textarea class="form-textarea" id="qi" placeholder="Escribí la pregunta..."></textarea>
-    <label class="form-label">OPCIONES</label>
-    <div class="opt-row"><span class="opt-row-lbl">A</span><input class="form-input" id="oa" placeholder="Opción A"></div>
-    <div class="opt-row"><span class="opt-row-lbl">B</span><input class="form-input" id="ob" placeholder="Opción B"></div>
-    <div class="opt-row"><span class="opt-row-lbl">C</span><input class="form-input" id="oc" placeholder="Opción C"></div>
-    <div class="opt-row"><span class="opt-row-lbl">D</span><input class="form-input" id="od" placeholder="Opción D (opcional)"></div>
-    <label class="form-label">RESPUESTA CORRECTA</label>
-    <select class="form-select" id="ca">
-      <option value="0">A</option><option value="1">B</option>
-      <option value="2">C</option><option value="3">D</option>
-    </select>
-    <label class="form-label">EXPLICACIÓN (opcional)</label>
-    <textarea class="form-textarea" id="exp" placeholder="Explicación de la respuesta correcta..."></textarea>
-    <div style="margin-top:14px">
-      <button class="btn-primary" style="font-size:16px" id="add-q-btn">GUARDAR PREGUNTA</button>
-    </div>
-    <div class="divider"></div>
-    <p class="section-label">Preguntas del test</p>
-    <div id="qlist"></div>
-  </div>
-</div>
-
 <script>
-(function() {
-
-var tests = [
+var TESTS=[
   {
-    id: 1,
-    name: 'Cartilla N\u00b01 \u2014 10\u00b0, 9\u00b0 y 8\u00b0 Gup',
-    desc: '10 preguntas de teor\u00eda b\u00e1sica',
-    icon: '\ud83e\udd4b',
-    questions: [
-      { q: '\u00bfCu\u00e1l es el significado de "Taekwon-Do"?', opts: ['Arte del pie y el pu\u00f1o','Arte marcial coreano','Camino del pie y el pu\u00f1o','T\u00e9cnica de lucha'], ans: 2, exp: 'Tae=pie, Kwon=pu\u00f1o, Do=camino. Significa "Camino del pie y el pu\u00f1o".' },
-      { q: '\u00bfCu\u00e1ntos patrones (tul) tiene el sistema ITF?', opts: ['18','24','22','25'], ans: 1, exp: 'El sistema ITF tiene 24 patrones (tul) en total.' },
-      { q: '\u00bfQu\u00e9 significa "Charyot"?', opts: ['Descanso','Firmes / Atenci\u00f3n','Reverencia','Comenzar'], ans: 1, exp: 'Charyot es la voz de mando para ponerse firmes.' },
-      { q: '\u00bfCu\u00e1l es el nombre del fundador del Taekwon-Do?', opts: ['Kim Il-sung','Choi Hong Hi','Park Jung Tae','Lee Jun Ho'], ans: 1, exp: 'El General Choi Hong Hi fue el fundador del Taekwon-Do ITF.' },
-      { q: '\u00bfQu\u00e9 simboliza el color blanco del dobok?', opts: ['Pureza e inicio del aprendizaje','Fuerza y valent\u00eda','La naturaleza','Experiencia acumulada'], ans: 0, exp: 'El blanco simboliza pureza e inocencia, el inicio sin prejuicios.' },
-      { q: '\u00bfCu\u00e1ntos principios tiene el Taekwon-Do?', opts: ['3','5','7','9'], ans: 1, exp: '5 principios: Cortes\u00eda, Integridad, Perseverancia, Autocontrol e Indomable esp\u00edritu.' },
-      { q: '\u00bfQu\u00e9 significa "Kyong-ye"?', opts: ['Comenzar','Reverencia / Saludo','Firmes','Descanso'], ans: 1, exp: 'Kyong-ye significa reverencia, un gesto de respeto fundamental.' },
-      { q: '\u00bfQu\u00e9 cintur\u00f3n corresponde al 10\u00b0 Gup?', opts: ['Amarillo','Blanco con punta amarilla','Blanco','Amarillo con punta verde'], ans: 2, exp: 'El 10\u00b0 Gup es el cintur\u00f3n blanco, nivel de inicio.' },
-      { q: '\u00bfQu\u00e9 significa "Gup" en Taekwon-Do?', opts: ['Maestro','Grado de color (estudiante)','Patr\u00f3n de movimientos','T\u00e9cnica de patada'], ans: 1, exp: 'Gup se refiere a los grados de estudiante (cinturones de color).' },
-      { q: '\u00bfEn qu\u00e9 a\u00f1o fue fundado el Taekwon-Do?', opts: ['1945','1955','1966','1973'], ans: 1, exp: 'El Taekwon-Do fue fundado oficialmente el 11 de abril de 1955.' }
+    "id": 1,
+    "name": "Cartilla N°1 — 10°, 9° y 8° Gup",
+    "icon": "🥋",
+    "slides": [
+      {
+        "type": "theory",
+        "title": "¿Qué es el Taekwon-Do?",
+        "content": "El <b>Taekwon-Do</b> es un arte marcial coreano fundado por el General <b>Choi Hong Hi</b> el 11 de abril de <b>1955</b>.\n\nSu nombre significa:\n• Tae = Pie\n• Kwon = Puño\n• Do = Camino o Arte\n\nSe basa en <b>5 principios fundamentales</b>:\n1. Cortesía\n2. Integridad\n3. Perseverancia\n4. Autocontrol\n5. Indomable espíritu"
+      },
+      {
+        "type": "question",
+        "q": "¿Qué significa \"Taekwon-Do\"?",
+        "opts": [
+          "Arte del pie y el puño",
+          "Arte marcial coreano",
+          "Camino del pie y el puño",
+          "Técnica de lucha"
+        ],
+        "ans": 2,
+        "ok": "¡Correcto! Tae=pie, Kwon=puño, Do=camino o arte.",
+        "err": "Incorrecto. La respuesta es \"Camino del pie y el puño\"."
+      },
+      {
+        "type": "question",
+        "q": "¿En qué año fue fundado el Taekwon-Do?",
+        "opts": [
+          "1945",
+          "1955",
+          "1966",
+          "1973"
+        ],
+        "ans": 1,
+        "ok": "¡Correcto! El 11 de abril de 1955.",
+        "err": "Incorrecto. Fue fundado el 11 de abril de 1955."
+      },
+      {
+        "type": "question",
+        "q": "¿Que papel tuvieron los tres maestros coreanos Han Chang Kin, Nam Soom Choi y Kwan Duck Chung?",
+        "opts": [
+          "Introdujeron el Taekwon-Do a Santiago del Estero",
+          "Crearon FAAT (Federación Argentina de Asociaciones de Taekwon-Do)",
+          "Introdujeron el Taekwon-Do a la Argentina",
+          "Crearon ORO KWAN"
+        ],
+        "ans": 2,
+        "ok": "Correcto! Estos tres maestros coreanos fueron los enviados por el General Choi a la Argentina para comenzar a difundir el Taekwon-Do en el Año 1967.",
+        "err": "Incorrecto! Estos tres maestros coreanos fueron los enviados por el General Choi a la Argentina para comenzar a difundir el Taekwon-Do en el Año 1967."
+      },
+      {
+        "type": "theory",
+        "title": "Voces de mando básicas",
+        "content": "Estas son las voces de mando más usadas:\n\n• <b>Charyot</b> — Firmes / Atención\n• <b>Kyong-ye</b> — Reverencia / Saludo\n• <b>Jhoon-bi</b> — Preparados\n• <b>Si-jak</b> — Comenzar\n• <b>Guman</b> — Parar\n• <b>Shio</b> — Descanso"
+      },
+      {
+        "type": "question",
+        "q": "¿Qué significa \"Charyot\"?",
+        "opts": [
+          "Descanso",
+          "Firmes / Atención",
+          "Reverencia",
+          "Comenzar"
+        ],
+        "ans": 1,
+        "ok": "¡Correcto! Charyot significa Firmes / Atención.",
+        "err": "Incorrecto. Charyot es la voz de mando para ponerse firmes."
+      },
+      {
+        "type": "question",
+        "q": "¿Qué significa \"Kyong-ye\"?",
+        "opts": [
+          "Comenzar",
+          "Reverencia / Saludo",
+          "Firmes",
+          "Descanso"
+        ],
+        "ans": 1,
+        "ok": "¡Correcto! Kyong-ye significa reverencia o saludo.",
+        "err": "Incorrecto. Kyong-ye significa reverencia."
+      },
+      {
+        "type": "theory",
+        "title": "Los cinturones (Gup)",
+        "content": "En el sistema ITF los grados de estudiante se llaman <b>Gup</b>.\n\nDel 10° al 1° Gup:\n\n• <b>10° Gup</b> — Blanco\n• <b>9° Gup</b> — Blanco punta amarilla\n• <b>8° Gup</b> — Amarillo\n• <b>7° Gup</b> — Amarillo punta verde\n• <b>6° Gup</b> — Verde\n• <b>5° Gup</b> — Verde punta azul\n• <b>4° Gup</b> — Azul\n• <b>3° Gup</b> — Azul punta roja\n• <b>2° Gup</b> — Rojo\n• <b>1° Gup</b> — Rojo punta negra"
+      },
+      {
+        "type": "question",
+        "q": "¿Qué cinturón corresponde al 10° Gup?",
+        "opts": [
+          "Amarillo",
+          "Blanco con punta amarilla",
+          "Blanco",
+          "Amarillo con punta verde"
+        ],
+        "ans": 2,
+        "ok": "¡Correcto! El 10° Gup es el cinturón blanco.",
+        "err": "Incorrecto. El 10° Gup corresponde al cinturón blanco."
+      },
+      {
+        "type": "question",
+        "q": "¿Cuántos principios tiene el Taekwon-Do?",
+        "opts": [
+          "3",
+          "5",
+          "7",
+          "9"
+        ],
+        "ans": 1,
+        "ok": "¡Correcto! Son 5: Cortesía, Integridad, Perseverancia, Autocontrol e Indomable espíritu.",
+        "err": "Incorrecto. El Taekwon-Do tiene 5 principios."
+      },
+      {
+        "type": "question",
+        "q": "¿Cuántos patrones (tul) tiene el sistema ITF?",
+        "opts": [
+          "18",
+          "24",
+          "22",
+          "25"
+        ],
+        "ans": 1,
+        "ok": "¡Correcto! El sistema ITF tiene 24 patrones.",
+        "err": "Incorrecto. Son 24 patrones en total."
+      }
     ]
   }
 ];
-
-var curTest = null;
-var curQ = 0;
-var score = 0;
-var answered = false;
-var letters = ['A','B','C','D'];
-var colors = ['rgba(232,19,42,0.15)','rgba(26,79,255,0.15)','rgba(245,200,66,0.12)'];
-
-function showScreen(id) {
-  var screens = document.querySelectorAll('.screen');
-  for (var i = 0; i < screens.length; i++) screens[i].classList.remove('active');
-  document.getElementById(id).classList.add('active');
-  window.scrollTo(0, 0);
+var curTest=null,curSlide=0,score=0,total=0,answered=false;
+var L=['A','B','C','D'];
+function show(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('on')});document.getElementById(id).classList.add('on');window.scrollTo(0,0)}
+function renderHome(){
+  var el=document.getElementById('test-list');
+  if(!TESTS||!TESTS.length){el.innerHTML='<div class="empty-state">No hay tests disponibles.</div>';return;}
+  el.innerHTML=TESTS.map(function(t,i){
+    var qs=t.slides.filter(function(s){return s.type==='question'}).length;
+    return '<button class="test-card" data-i="'+i+'"><div class="t-icon">'+(t.icon||'📋')+'</div><div><div class="t-name">'+t.name+'</div><div class="t-meta">'+qs+' preguntas</div></div><span class="t-arr">›</span></button>';
+  }).join('');
+  document.querySelectorAll('.test-card').forEach(function(b){b.addEventListener('click',function(){startTest(parseInt(this.getAttribute('data-i')))})});
 }
-
-function renderHome() {
-  var list = document.getElementById('card-list');
-  if (!tests.length) {
-    list.innerHTML = '<div class="empty-msg"><div class="ei">\ud83d\udccb</div><p>No hay tests a\u00fan.<br>Us\u00e1 el panel del profesor.</p></div>';
-    return;
-  }
-  var html = '';
-  for (var i = 0; i < tests.length; i++) {
-    var t = tests[i];
-    html += '<button class="test-card" data-idx="' + i + '">' +
-      '<div class="card-ico" style="background:' + colors[i % 3] + '">' + (t.icon || '\ud83d\udccb') + '</div>' +
-      '<div><div class="card-name">' + t.name + '</div>' +
-      '<div class="card-meta">' + t.questions.length + ' preguntas</div></div>' +
-      '<span class="card-arr">\u203a</span></button>';
-  }
-  list.innerHTML = html;
-  var cards = list.querySelectorAll('.test-card');
-  for (var j = 0; j < cards.length; j++) {
-    (function(idx) {
-      cards[idx].addEventListener('click', function() { startQuiz(idx); });
-    })(j);
-  }
-}
-
-function startQuiz(idx) {
-  if (!tests[idx].questions.length) { alert('Este test no tiene preguntas a\u00fan.'); return; }
-  curTest = idx;
-  curQ = 0;
-  score = 0;
-  document.getElementById('ql-title').textContent = tests[idx].name;
-  showScreen('quiz');
-  loadQ();
-}
-
-function loadQ() {
-  var t = tests[curTest];
-  var q = t.questions[curQ];
-  answered = false;
-
-  document.getElementById('qnum').textContent = 'PREGUNTA ' + (curQ + 1);
-  document.getElementById('qtext').textContent = q.q;
-  document.getElementById('ql-cnt').textContent = (curQ + 1) + ' / ' + t.questions.length;
-  document.getElementById('prog').style.width = ((curQ / t.questions.length) * 100) + '%';
-
-  var fb = document.getElementById('fb');
-  fb.style.display = 'none'; fb.className = 'feedback-box';
-
-  var nxt = document.getElementById('nxt');
-  nxt.style.display = 'none';
-  nxt.textContent = (curQ + 1 < t.questions.length) ? 'SIGUIENTE \u2192' : '\ud83c\udfc1 VER RESULTADO';
-
-  var html = '';
-  for (var i = 0; i < q.opts.length; i++) {
-    html += '<button class="opt-btn" data-oi="' + i + '">' +
-      '<span class="opt-letter">' + letters[i] + '</span>' +
-      '<span>' + q.opts[i] + '</span></button>';
-  }
-  var container = document.getElementById('opts');
-  container.innerHTML = html;
-
-  var btns = container.querySelectorAll('.opt-btn');
-  for (var j = 0; j < btns.length; j++) {
-    (function(btn, oi) {
-      btn.addEventListener('click', function() { selectOpt(oi); });
-    })(btns[j], j);
-  }
-}
-
-function selectOpt(idx) {
-  if (answered) return;
-  answered = true;
-  var q = tests[curTest].questions[curQ];
-  var btns = document.getElementById('opts').querySelectorAll('.opt-btn');
-  var fb = document.getElementById('fb');
-
-  if (idx === q.ans) {
-    score++;
-    btns[idx].classList.add('correct');
-    fb.className = 'feedback-box ok';
-    fb.innerHTML = '\u2705 <strong>\u00a1Correcto!</strong>' + (q.exp ? ' ' + q.exp : '');
+function startTest(i){curTest=i;curSlide=0;score=0;answered=false;total=TESTS[i].slides.filter(function(s){return s.type==='question'}).length;document.getElementById('quiz-title').textContent=TESTS[i].name;show('quiz');renderSlide()}
+function renderSlide(){
+  var t=TESTS[curTest],slides=t.slides,slide=slides[curSlide];
+  var qNum=0;for(var i=0;i<=curSlide;i++)if(slides[i].type==='question')qNum++;
+  document.getElementById('prog').style.width=Math.round((curSlide/slides.length)*100)+'%';
+  document.getElementById('quiz-cnt').textContent=(curSlide+1)+' / '+slides.length;
+  var nxt=document.getElementById('nxt');nxt.style.display='none';answered=false;
+  var body=document.getElementById('quiz-body');
+  if(slide.type==='theory'){
+    body.innerHTML='<div class="theory-badge">📖 Teoría</div><div class="theory-title">'+slide.title+'</div><div class="theory-content">'+slide.content+'</div>';
+    nxt.textContent=curSlide+1<slides.length?'CONTINUAR →':'🏁 VER RESULTADO';nxt.style.display='block';
   } else {
-    btns[idx].classList.add('wrong');
-    if (btns[q.ans]) btns[q.ans].classList.add('correct');
-    fb.className = 'feedback-box err';
-    fb.innerHTML = '\u274c <strong>Incorrecto.</strong> La correcta es <strong>' + letters[q.ans] + '</strong>.' + (q.exp ? ' ' + q.exp : '');
-  }
-  fb.style.display = 'block';
-  document.getElementById('nxt').style.display = 'block';
-}
-
-function showResult() {
-  showScreen('result');
-  var total = tests[curTest].questions.length;
-  var pct = Math.round((score / total) * 100);
-  var pass = pct >= 60;
-  document.getElementById('ri').textContent = pct === 100 ? '\ud83c\udfc6' : pass ? '\ud83c\udf89' : '\ud83d\udcaa';
-  document.getElementById('rs').textContent = pct + '%';
-  document.getElementById('rs').className = 'res-score ' + (pass ? 'pass' : 'fail');
-  document.getElementById('rl').textContent = score + ' de ' + total + ' correctas';
-  document.getElementById('sc').textContent = score;
-  document.getElementById('sw').textContent = total - score;
-  document.getElementById('sp').textContent = pct + '%';
-  document.getElementById('rm').textContent = pct === 100 ? '\u00a1PERFECTO!' : pass ? '\u00a1MUY BIEN!' : 'SEGU\u00cd PRACTICANDO';
-  document.getElementById('rsub').textContent = pct === 100
-    ? '\u00a1Respondiste todo bien! Est\u00e1s m\u00e1s que listo.'
-    : pass ? 'Aprobaste. Repas\u00e1 las que fallaste.'
-    : 'Necesit\u00e1s seguir estudiando. \u00a1Vos pod\u00e9s!';
-}
-
-function renderAdmin() {
-  var sel = document.getElementById('tsel');
-  var html = '<option value="">\u2014 Selecci\u00f3n un test \u2014</option>';
-  for (var i = 0; i < tests.length; i++) {
-    html += '<option value="' + i + '">' + tests[i].name + '</option>';
-  }
-  sel.innerHTML = html;
-  renderQList();
-}
-
-function renderQList() {
-  var ti = document.getElementById('tsel').value;
-  var c = document.getElementById('qlist');
-  if (ti === '' || !tests[ti]) {
-    c.innerHTML = '<div class="empty-msg"><div class="ei">\ud83d\udc46</div><p>Selecci\u00f3n un test para ver sus preguntas.</p></div>';
-    return;
-  }
-  var qs = tests[ti].questions;
-  if (!qs.length) {
-    c.innerHTML = '<div class="empty-msg"><div class="ei">\ud83d\udcdd</div><p>Este test no tiene preguntas a\u00fan.</p></div>';
-    return;
-  }
-  var html = '';
-  for (var i = 0; i < qs.length; i++) {
-    html += '<div class="q-item"><div class="q-item-text"><strong>' + (i+1) + '.</strong> ' + qs[i].q + '</div>' +
-      '<button class="del-q" data-ti="' + ti + '" data-qi="' + i + '">\ud83d\uddd1</button></div>';
-  }
-  c.innerHTML = html;
-  var dels = c.querySelectorAll('.del-q');
-  for (var j = 0; j < dels.length; j++) {
-    dels[j].addEventListener('click', function() {
-      var tii = parseInt(this.getAttribute('data-ti'));
-      var qii = parseInt(this.getAttribute('data-qi'));
-      if (confirm('\u00bfEliminar esta pregunta?')) {
-        tests[tii].questions.splice(qii, 1);
-        renderQList();
-      }
-    });
+    body.innerHTML='<div class="q-label">Pregunta '+qNum+' de '+total+'</div><div class="q-text">'+slide.q+'</div><div class="opts-list">'+slide.opts.map(function(o,i){return '<button class="opt" data-oi="'+i+'"><span class="opt-letter">'+L[i]+'</span><span>'+o+'</span></button>'}).join('')+'</div><div class="fb" id="fb"></div>';
+    document.querySelectorAll('.opt').forEach(function(b){b.addEventListener('click',function(){pickOpt(parseInt(this.getAttribute('data-oi')))})});
   }
 }
-
-// ── EVENTOS ──────────────────────────────────────────────────────────
-document.getElementById('admin-btn').addEventListener('click', function() {
-  showScreen('admin'); renderAdmin();
-});
-document.getElementById('back-quiz').addEventListener('click', function() {
-  showScreen('home'); renderHome();
-});
-document.getElementById('back-admin').addEventListener('click', function() {
-  showScreen('home'); renderHome();
-});
-document.getElementById('nxt').addEventListener('click', function() {
-  curQ++;
-  if (curQ < tests[curTest].questions.length) loadQ();
-  else showResult();
-});
-document.getElementById('retry-btn').addEventListener('click', function() {
-  curQ = 0; score = 0; showScreen('quiz'); loadQ();
-});
-document.getElementById('home-btn').addEventListener('click', function() {
-  showScreen('home'); renderHome();
-});
-document.getElementById('create-test-btn').addEventListener('click', function() {
-  var name = document.getElementById('tn').value.trim();
-  var desc = document.getElementById('td').value.trim();
-  var icon = document.getElementById('ti').value.trim() || '\ud83d\udccb';
-  if (!name) { alert('Ingres\u00e1 el nombre del test.'); return; }
-  tests.push({ id: Date.now(), name: name, desc: desc, icon: icon, questions: [] });
-  document.getElementById('tn').value = '';
-  document.getElementById('td').value = '';
-  document.getElementById('ti').value = '';
-  renderAdmin();
-  alert('\u2705 Test creado correctamente.');
-});
-document.getElementById('add-q-btn').addEventListener('click', function() {
-  var ti = document.getElementById('tsel').value;
-  if (ti === '') { alert('Selecci\u00f3n un test primero.'); return; }
-  var q  = document.getElementById('qi').value.trim();
-  var a  = document.getElementById('oa').value.trim();
-  var b  = document.getElementById('ob').value.trim();
-  var c  = document.getElementById('oc').value.trim();
-  var d  = document.getElementById('od').value.trim();
-  var ans = parseInt(document.getElementById('ca').value);
-  var exp = document.getElementById('exp').value.trim();
-  if (!q || !a || !b || !c) { alert('Complet\u00e1 la pregunta y al menos 3 opciones.'); return; }
-  var opts = [a, b, c];
-  if (d) opts.push(d);
-  tests[ti].questions.push({ q: q, opts: opts, ans: ans, exp: exp });
-  document.getElementById('qi').value = '';
-  document.getElementById('oa').value = '';
-  document.getElementById('ob').value = '';
-  document.getElementById('oc').value = '';
-  document.getElementById('od').value = '';
-  document.getElementById('exp').value = '';
-  renderQList();
-  alert('\u2705 Pregunta guardada.');
-});
-document.getElementById('tsel').addEventListener('change', renderQList);
-
+function pickOpt(idx){
+  if(answered)return;answered=true;
+  var slide=TESTS[curTest].slides[curSlide];
+  var btns=document.querySelectorAll('.opt');
+  btns.forEach(function(b){b.classList.add('locked')});
+  var fb=document.getElementById('fb');
+  if(idx===slide.ans){score++;btns[idx].classList.add('correct');fb.className='fb ok';fb.textContent=slide.ok||'¡Correcto!';}
+  else{btns[idx].classList.add('wrong');if(btns[slide.ans])btns[slide.ans].classList.add('correct');fb.className='fb err';fb.textContent=slide.err||'Incorrecto.';}
+  fb.style.display='block';
+  var nxt=document.getElementById('nxt');nxt.textContent=curSlide+1<TESTS[curTest].slides.length?'SIGUIENTE →':'🏁 VER RESULTADO';nxt.style.display='block';
+}
+function showResult(){
+  show('result');var total2=TESTS[curTest].slides.filter(function(s){return s.type==='question'}).length;
+  var pct=total2>0?Math.round((score/total2)*100):100;var pass=pct>=60;
+  document.getElementById('r-icon').textContent=pct===100?'🏆':pass?'🎉':'💪';
+  document.getElementById('r-score').textContent=pct+'%';document.getElementById('r-score').className='res-score '+(pass?'pass':'fail');
+  document.getElementById('r-lbl').textContent=score+' de '+total2+' correctas';
+  document.getElementById('r-ok').textContent=score;document.getElementById('r-err').textContent=total2-score;document.getElementById('r-pct').textContent=pct+'%';
+  document.getElementById('r-msg').textContent=pct===100?'¡PERFECTO!':pass?'¡MUY BIEN!':'SEGUÍ PRACTICANDO';
+  document.getElementById('r-sub').textContent=pct===100?'Respondiste todo. Estás listo para el examen.':pass?'Aprobaste. Repasá las que fallaste.':'Seguí estudiando. ¡Vos podés!';
+}
+document.getElementById('bk').addEventListener('click',function(){show('home');renderHome()});
+document.getElementById('nxt').addEventListener('click',function(){curSlide++;if(curSlide<TESTS[curTest].slides.length)renderSlide();else showResult()});
+document.getElementById('retry').addEventListener('click',function(){startTest(curTest)});
+document.getElementById('r-home').addEventListener('click',function(){show('home');renderHome()});
 renderHome();
-
-})();
 </script>
 </body>
 </html>
